@@ -1,0 +1,21 @@
+# Ignore compiled python
+__pycache__/
+*.pyc
+
+# Ignore video data folders
+input_videos/
+processed_videos/
+final_clips/
+
+# Ignore intermediate files
+*.json
+*.srt
+*.ass
+*.mp4
+*.mov
+*.mkv
+
+# Ignore binaries
+HandBrakeCLI.exe
+workflow-rough.md
+
