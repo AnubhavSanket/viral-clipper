@@ -6,6 +6,9 @@ venv/
 env/
 .env
 python/
+debug.bat
+Start_App-test.bat
+ViralClipperAI.spec
 
 
 # Binary Tools (Too large for Git)
