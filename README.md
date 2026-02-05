@@ -1,4 +1,4 @@
-#  ViralClipper AI
+#  ViralClipper
 
 > **Your Local "OpusClip" Alternative.**  
 > Automatically turn long videos into viral, captioned shorts using local AI. No cloud fees, total privacy.
