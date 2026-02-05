@@ -1,21 +1,29 @@
-# Ignore compiled python
+# Python artifacts
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+python/
 
-# Ignore video data folders
-input_videos/
-processed_videos/
-final_clips/
 
-# Ignore intermediate files
-*.json
-*.srt
-*.ass
+# Binary Tools (Too large for Git)
+bin/ffmpeg.exe
+bin/ffprobe.exe
+bin/HandBrakeCLI.exe
+
+# Output Folders
+processed_output/
 *.mp4
-*.mov
 *.mkv
+*.mov
 
-# Ignore binaries
-HandBrakeCLI.exe
-workflow-rough.md
+# Logs and Temp files
+*.log
+*.tmp
+temp_work/
 
+# IDE settings
+.vscode/
+.idea/

@@ -2,23 +2,19 @@ import json
 import os
 import matplotlib.pyplot as plt
 
-# CONFIGURATION
-CLIPS_JSON = "clips.json"
-TRANSCRIPT_JSON = "transcript.json"
-OUTPUT_DIR = "final_clips"  # Or where your batch runner puts the final folder
-REPORT_FILE = os.path.join(OUTPUT_DIR, "VIRALITY_REPORT.md")
-CHART_FILE = os.path.join(OUTPUT_DIR, "engagement_chart.png")
+def generate_report(clips_json, transcript_json, output_dir):
+    report_file = os.path.join(output_dir, "VIRALITY_REPORT.md")
+    chart_file = os.path.join(output_dir, "engagement_chart.png")
 
-def generate_report():
-    if not os.path.exists(CLIPS_JSON) or not os.path.exists(TRANSCRIPT_JSON):
+    if not os.path.exists(clips_json) or not os.path.exists(transcript_json):
         print("Error: JSON files not found. Run analysis first.")
         return
 
     # Load Data
-    with open(CLIPS_JSON, "r", encoding="utf-8") as f:
+    with open(clips_json, "r", encoding="utf-8") as f:
         clips = json.load(f)
         
-    with open(TRANSCRIPT_JSON, "r", encoding="utf-8") as f:
+    with open(transcript_json, "r", encoding="utf-8") as f:
         transcript = json.load(f)
         video_duration = transcript[-1]['end'] if transcript else 0
 
@@ -43,6 +39,7 @@ def generate_report():
     md_content += "![Engagement Chart](./engagement_chart.png)\n"
     
     # 2. Generate Chart (Matplotlib)
+    plt.switch_backend('Agg')
     plt.figure(figsize=(10, 4))
     
     # Draw gray background bar for full video
@@ -64,17 +61,18 @@ def generate_report():
     plt.tight_layout()
     
     # Ensure output dir exists
-    if not os.path.exists(OUTPUT_DIR):
-        os.makedirs(OUTPUT_DIR)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
         
-    plt.savefig(CHART_FILE)
-    print(f"--- Chart saved to {CHART_FILE} ---")
+    plt.savefig(chart_file)
+    print(f"--- Chart saved to {chart_file} ---")
     
     # 3. Save Markdown
-    with open(REPORT_FILE, "w", encoding="utf-8") as f:
+    with open(report_file, "w", encoding="utf-8") as f:
         f.write(md_content)
         
-    print(f"--- Report saved to {REPORT_FILE} ---")
+    print(f"--- Report saved to {report_file} ---")
 
 if __name__ == "__main__":
-    generate_report()
+    # Compatibility
+    generate_report("clips.json", "transcript.json", "final_clips")

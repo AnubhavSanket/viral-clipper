@@ -95,7 +95,7 @@ def process_video(filename):
         
         # Step 4: Report
         print("\n[4/5] Generating Virality Report...")
-        subprocess.run(["python", "5_generate_report.py"], check=True)
+        subprocess.run(["python", "4_generate_report.py"], check=True)
         
         # Step 5: Finalize
         print("\n[5/5] Finalizing...")

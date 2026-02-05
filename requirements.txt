@@ -1,0 +1,13 @@
+PyQt6
+pillow
+openai-whisper
+whisperx
+ctranslate2==4.4.0
+faster-whisper==1.0.3
+requests
+matplotlib
+moviepy
+torch
+torchaudio
+torchvision
+--extra-index-url https://download.pytorch.org/whl/cu118

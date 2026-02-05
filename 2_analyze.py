@@ -1,15 +1,18 @@
 import json
 import ollama
 import math
+import os
 
-# CONFIGURATION
-INPUT_JSON = "transcript.json"
-OUTPUT_CLIPS = "clips.json"
-MODEL_NAME = "gemma3:4b"  # Ensure you have pulled model from ollama: "ollama pull gemma3:4b"
+# --- CONFIGURED DEFAULTS ---
+DEFAULT_MODEL = "gemma3:4b"
 
-def analyze_transcript():
-    print(f"--- Loading {INPUT_JSON} ---")
-    with open(INPUT_JSON, "r", encoding="utf-8") as f:
+def analyze_transcript(input_json, output_clips, model_name=DEFAULT_MODEL):
+    print(f"--- Loading {input_json} ---")
+    if not os.path.exists(input_json):
+        print(f"Error: {input_json} not found.")
+        return
+
+    with open(input_json, "r", encoding="utf-8") as f:
         segments = json.load(f)
 
     # 1. Prepare text chunks
@@ -20,7 +23,7 @@ def analyze_transcript():
         text = seg['text'].strip()
         full_text += f"[{start}-{end}] {text}\n"
 
-    print(f"--- Sending to Ollama ({MODEL_NAME})... ---")
+    print(f"--- Sending to Ollama ({model_name})... ---")
     
     # 2. Construct the Prompt
     prompt = f"""
@@ -46,13 +49,13 @@ def analyze_transcript():
     """
 
     try:
-        response = ollama.chat(model=MODEL_NAME, messages=[
+        response = ollama.chat(model=model_name, messages=[
             {'role': 'user', 'content': prompt},
         ])
         content = response['message']['content']
     except Exception as e:
         print(f"Error calling Ollama: {e}")
-        return
+        raise e
 
     print("\n--- Raw Response from LLM ---")
     print(content)
@@ -145,15 +148,17 @@ def analyze_transcript():
             print(f"   Final Clip: {original_start}-{original_end} -> {clip['start_time']}-{clip['end_time']} (Dur: {clip['duration']}s)")
             valid_clips.append(clip)
 
-        with open(OUTPUT_CLIPS, "w", encoding="utf-8") as f:
+        with open(output_clips, "w", encoding="utf-8") as f:
             json.dump(valid_clips, f, indent=2)
             
-        print(f"\n--- Saved {len(valid_clips)} expanded clips to {OUTPUT_CLIPS} ---")
+        print(f"\n--- Saved {len(valid_clips)} expanded clips to {output_clips} ---")
         
     except json.JSONDecodeError:
         print("Error: LLM did not return valid JSON. Check the raw response above.")
+        raise ValueError("Invalid JSON from LLM")
     except Exception as e:
         print(f"Error processing clips: {e}")
+        raise e
 
 if __name__ == "__main__":
-    analyze_transcript()
+    analyze_transcript("transcript.json", "clips.json")
