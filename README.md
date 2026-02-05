@@ -14,8 +14,8 @@
     *   **Analyze:** `Ollama` (Context-aware clipping).
     *   **Edit:** `FFmpeg` & `HandBrake` (9:16 Crop + Burn-in).
 *   **Dual Mode:**
-    *   🖥️ **UI Dashboard:** Interactive drag-and-drop (`Start_App.bat`).
-    *   ⚙️ **Batch Mode:** Process entire folders overnight (`5_batch_runner.py`).
+    *    **UI Dashboard:** Interactive drag-and-drop (`Start_App.bat`).
+    *    **Batch Mode:** Process entire folders overnight (`5_batch_runner.py`).
 
 ---
 
